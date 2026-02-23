@@ -1,47 +1,37 @@
 import java.util.*;
 
-public class OnboardingService {
-    private final FakeDb db;
+import Parser.Parser;
+import Validation.InputValidator;
 
-    public OnboardingService(FakeDb db) { this.db = db; }
+public class OnboardingService {
+    private final StudentRecoRepo repo;
+
+    public OnboardingService(StudentRecoRepo repo) {
+        this.repo = repo;
+    }
 
     // Intentionally violates SRP: parses + validates + creates ID + saves + prints.
     public void registerFromRawInput(String raw) {
         System.out.println("INPUT: " + raw);
 
-        Map<String,String> kv = new LinkedHashMap<>();
-        String[] parts = raw.split(";");
-        for (String p : parts) {
-            String[] t = p.split("=", 2);
-            if (t.length == 2) kv.put(t[0].trim(), t[1].trim());
-        }
-
-        String name = kv.getOrDefault("name", "");
-        String email = kv.getOrDefault("email", "");
-        String phone = kv.getOrDefault("phone", "");
-        String program = kv.getOrDefault("program", "");
+        Parser parser = new Parser();
+        Map<String,String> kv = parser.parseRawInput(raw);
 
         // validation inline, printing inline
-        List<String> errors = new ArrayList<>();
-        if (name.isBlank()) errors.add("name is required");
-        if (email.isBlank() || !email.contains("@")) errors.add("email is invalid");
-        if (phone.isBlank() || !phone.chars().allMatch(Character::isDigit)) errors.add("phone is invalid");
-        if (!(program.equals("CSE") || program.equals("AI") || program.equals("SWE"))) errors.add("program is invalid");
+        InputValidator validator = new InputValidator(kv);
+        List<String> errors = validator.validate();
 
+        OutputHandler handler = new OutputHandler();
         if (!errors.isEmpty()) {
-            System.out.println("ERROR: cannot register");
-            for (String e : errors) System.out.println("- " + e);
-            return;
+            handler.printErrors(errors);
+        } else {
+            String id = IdUtil.nextStudentId(repo.getCount());
+            String name = kv.get("name");
+            String email = kv.get("email");
+            String phone = kv.get("phone");
+            String program = kv.get("program");
+            StudentRecord rec = repo.saveToDB(id, name, email, phone, program);
+            handler.printSuccess(rec, repo.getCount());
         }
-
-        String id = IdUtil.nextStudentId(db.count());
-        StudentRecord rec = new StudentRecord(id, name, email, phone, program);
-
-        db.save(rec);
-
-        System.out.println("OK: created student " + id);
-        System.out.println("Saved. Total students: " + db.count());
-        System.out.println("CONFIRMATION:");
-        System.out.println(rec);
     }
 }
