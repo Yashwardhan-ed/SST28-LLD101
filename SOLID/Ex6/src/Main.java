@@ -17,7 +17,6 @@ public class Main {
             System.out.println("WA ERROR: " + ex.getMessage());
             audit.add("WA failed");
         }
-
         System.out.println("AUDIT entries=" + audit.size());
     }
 }

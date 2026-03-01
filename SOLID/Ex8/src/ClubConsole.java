@@ -12,10 +12,10 @@ public class ClubConsole {
         ClubAdminTools secretary = new SecretaryTool(minutes);
         ClubAdminTools lead = new EventLeadTool(events);
 
-        treasurer.addIncome(5000, "sponsor");
-        secretary.addMinutes("Meeting at 5pm");
-        lead.createEvent("HackNight", 2000);
+        ((Finance) treasurer).addIncome(5000, "sponsor");
+        ((Minutes) secretary).addMinutes("Meeting at 5pm");
+        ((EventOperations) lead).createEvent("HackNight", 2000);
 
-        System.out.println("Summary: ledgerBalance=" + ledger.balanceInt() + ", minutes=" + minutes.count() + ", events=" + lead.getEventsCount());
+        System.out.println("Summary: ledgerBalance=" + ledger.balanceInt() + ", minutes=" + minutes.count() + ", events=" + ((EventOperations)lead).getEventsCount());
     }
 }

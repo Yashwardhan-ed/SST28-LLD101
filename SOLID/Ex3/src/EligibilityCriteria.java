@@ -12,6 +12,7 @@ public class EligibilityCriteria {
 
     public EligibilityResult checkEligibility(EligibilityData data) {
         List<String> reasons = new ArrayList<>();
+        
         for (EligibilityRules rule : rules) {
             String reason = rule.checkEligibility(data, ruleInput);
             if (reason != null && !reason.isEmpty()) {
