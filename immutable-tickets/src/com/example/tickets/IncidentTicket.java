@@ -115,6 +115,7 @@ public class IncidentTicket {
             if (assigneeEmail != null && !assigneeEmail.trim().isEmpty()) {
                 Validation.requireEmail(assigneeEmail, "assigneeEmail");
             }
+            
             return new IncidentTicket(this);
         }
 
