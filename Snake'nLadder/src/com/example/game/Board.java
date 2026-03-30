@@ -17,11 +17,13 @@ public class Board {
         this.random = new Random();
         BuildBoard(size, size);
     }
+
     void BuildBoard(int snakeCount, int ladderCount) {
         // Add Random Snakes and Ladders
         createRandomSnakes(snakeCount);
         createRandomLadders(ladderCount);
     }
+
     void createRandomSnakes(int count) {
         int maxCell = size * size;
         int placed = 0;
@@ -45,6 +47,7 @@ public class Board {
             System.out.println("Could only place " + placed + " snakes out of " + count + ".");
         }
     }
+
     void createRandomLadders(int count) {
         int maxCell = size * size;
         int placed = 0;
@@ -68,6 +71,7 @@ public class Board {
             System.out.println("Could only place " + placed + " ladders out of " + count + ".");
         }
     }
+
     int resolveJump(int position) {
         if(snakes.containsKey(position)) {
             System.out.println("Oh no! You hit a snake! Going down from " + position + " to " + snakes.get(position) + "\n");
@@ -79,14 +83,14 @@ public class Board {
         return position;
     }
 
-    int getRandomInRange(int min, int max) {
+    private int getRandomInRange(int min, int max) {
         if (max < min) {
             throw new IllegalArgumentException("Invalid range: min=" + min + ", max=" + max);
         }
         return random.nextInt(max - min + 1) + min;
     }
 
-    boolean isCellOccupied(int cell) {
+    private boolean isCellOccupied(int cell) {
         return snakes.containsKey(cell) || snakes.containsValue(cell)
                 || ladders.containsKey(cell) || ladders.containsValue(cell);
     }

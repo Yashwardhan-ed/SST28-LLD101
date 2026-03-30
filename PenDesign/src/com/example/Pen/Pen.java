@@ -17,7 +17,7 @@ abstract class Pen {
         this.startStrategy = startStrategy;
     }
 
-    // All the 
+    
 
     public abstract void write(String text);
 

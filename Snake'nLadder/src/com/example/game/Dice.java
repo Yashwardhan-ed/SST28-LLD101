@@ -3,8 +3,10 @@ package com.example.game;
 import java.util.Random;
 
 public class Dice {
+
     private static Dice instance;
     private static Random random;
+    
     private Dice() {
         random = new Random();
     }
