@@ -19,7 +19,7 @@
 - `CustomerService` implements `BrowsingBookingCapable` to browse, book, and cancel tickets, coordinating pricing and payments.
 - `InMemoryDataStore` holds domain data and wires theaters to seat maps per auditorium and show.
 - `SeatMap`/`Seat` model capacity and pricing; `PriceStrategy` makes pricing pluggable.
-- `PaymentGateway`/`MockPaymentGateway` adapt external payments; swap with a real gateway when needed.
+- `PaymentGateway`/`MockPaymentGateway` adapt external payments;
 
 **Run the sample**
 - Execute `Application` to seed sample data (Inception @ Central Cineplex, Bangalore), book seats, and trigger a cancellation flow.
